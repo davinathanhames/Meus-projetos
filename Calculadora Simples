@@ -1,0 +1,75 @@
+//Calculadora simples feita com métodos em Java.
+
+import java.util.Scanner;
+
+public class Calculadora {
+    public Calculadora() {
+        Scanner s = new Scanner(System.in);
+
+        System.out.println(" === CALCULADORA === ");
+        int opcao = 0;
+
+        do {
+            opcao = menuCalculadora(s);
+
+            if (opcao != 5) {
+                calculoOperacao(opcao, s);
+            } else {
+                System.out.println("Fechando a calculadora . . . ");
+                break;
+            }
+            System.out.println("-------------------------");
+        } while (opcao != 5);
+
+        s.close();
+    }
+
+    private int menuCalculadora(Scanner s) {
+
+        System.out.println("1- Somar");
+        System.out.println("2- Subtrair");
+        System.out.println("3- Multiplicar");
+        System.out.println("4- Dividir");
+        System.out.println("5- Fechar calculadora");
+        System.out.print("Escolha uma das operações: ");
+        int opcao = s.nextInt();
+
+        return opcao;
+
+    }
+
+    private void calculoOperacao(int opcao, Scanner s) {
+
+        System.out.print("Digite o primeiro número: ");
+        double num1 = s.nextDouble();
+
+        System.out.print("Digite o segundo número: ");
+        double num2 = s.nextDouble();
+
+        switch (opcao) {
+            case 1:
+                System.out.println("Soma: " + (num1 + num2));
+                break;
+            case 2:
+                System.out.println("Subtração: " + (num1 - num2));
+                break;
+            case 3:
+                System.out.println("Multiplicação: " + (num1 * num2));
+                break;
+            case 4:
+                System.out.println("Divisão: " + (num1 / num2));
+                break;
+            case 5:
+                System.out.println("Fechando a calculadora . . . ");
+                break;
+            default:
+                System.out.println("A opção digitada não existe! \nPor favor, tente novamente: ");
+                opcao = s.nextInt();
+        }
+
+    }
+
+    public static void main(String[] args) throws Exception {
+        new Calculadora();
+    }
+}
