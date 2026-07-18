@@ -1,7 +1,7 @@
 
 /* Nesta segunda versão da calculadora, ela apresenta novas funções, como:
 - Calcular áreas;
-- Calculas Volumes;
+- Calcular Volumes;
 - Fazer a fórmula de Bhaskara.
 Ela ainda é bem limitada e possui um código bem extenso, além de alguns bugs.
 No entanto, pretendo arrumar isso e encontrar novas formas de diminuir o código.
