@@ -1,0 +1,429 @@
+
+/* Nesta segunda versão da calculadora, ela apresenta novas funções, como:
+- Calcular áreas;
+- Calculas Volumes;
+- Fazer a fórmula de Bhaskara.
+Ela ainda é bem limitada e possui um código bem extenso, além de alguns bugs.
+No entanto, pretendo arrumar isso e encontrar novas formas de diminuir o código.
+*/
+import java.util.Scanner;
+
+public class Calculadorav2 {
+
+    public Calculadorav2() {
+        Scanner s = new Scanner(System.in);
+        int opcao = 0;
+
+        do {
+            opcao = menuCalculadora(s, opcao);
+            calculoOperacao(opcao, s);
+
+        } while (opcao != 6);
+
+        s.close();
+    }
+
+    // Mostra o menu da calculadora
+    private int menuCalculadora(Scanner s, int opcao) {
+
+        System.out.println("\n === CALCULADORA === ");
+        System.out.println("1- Somar");
+        System.out.println("2- Subtrair");
+        System.out.println("3- Multiplicar");
+        System.out.println("4- Dividir");
+        System.out.println("5- Fórmulas");
+        System.out.println("6- Fechar calculadora");
+        System.out.print("Escolha uma das opções acima: ");
+        opcao = s.nextInt();
+        return opcao;
+    }
+
+    private void calculoOperacao(int opcao, Scanner s) {
+        double numeros[];
+        switch (opcao) {
+            case 1:
+                numeros = numerosEscolhidos(opcao, s);
+                System.out.println("Soma: " + (numeros[0] + numeros[1]));
+                break;
+            case 2:
+                numeros = numerosEscolhidos(opcao, s);
+                System.out.println("Subtração: " + (numeros[0] - numeros[1]));
+                break;
+            case 3:
+                numeros = numerosEscolhidos(opcao, s);
+                System.out.println("Multiplicação: " + (numeros[0] * numeros[1]));
+                break;
+            case 4:
+                numeros = numerosEscolhidos(opcao, s);
+                System.out.println("Divisão: " + (numeros[0] / numeros[1]));
+                break;
+            case 5:
+                formulasMatematicas(s, opcao);
+                break;
+            case 6:
+                System.out.println("Fechando a calculadora . . . ");
+                break;
+            default:
+                System.out.println("A opção digitada não existe! \nPor favor, tente novamente: ");
+                opcao = s.nextInt();
+        }
+    }
+
+    // Das opções 1 a 4, este método será chamado para digitar os dois números,
+    // depois ele retorna os valores escolhidos
+    public double[] numerosEscolhidos(int opcao, Scanner s) {
+        System.out.print("Digite o primeiro número: ");
+        double num1 = s.nextDouble();
+
+        System.out.print("Digite o segundo número: ");
+        double num2 = s.nextDouble();
+
+        return new double[] { num1, num2 };
+    }
+
+    // Método para retornar
+    public char perguntarSeVoltar(Scanner s) {
+        String entrada;
+        do {
+            System.out.print("\nDeseja voltar (s/n)? ");
+            entrada = s.nextLine().trim().toLowerCase();
+
+            if (entrada.isEmpty() || !entrada.equals("s") && !entrada.equals("n")) {
+                System.out.println("Opção inválida! Tente novamente.");
+            }
+        } while (!entrada.equals("s") && !entrada.equals("n"));
+        return entrada.charAt(0);
+    }
+
+    // Ao digitar a quinta opção, vamos para outra versão da calculadora,
+    // que terá diversas fórmulas.
+    public void formulasMatematicas(Scanner s, int opcao) {
+
+        System.out.println("\n===========================");
+        System.out.println("   Fórmulas matemáticas");
+        System.out.println("===========================");
+        System.out.println("1- Áreas");
+        System.out.println("2- Bhaskara");
+        System.out.println("3- Volumes");
+        System.out.println("4- Retornar para as operações básicas");
+        System.out.print("Digite uma das opções acima: ");
+        int escolha = s.nextInt();
+
+        switch (escolha) {
+            case 1:
+                formulaAreas(s);
+                break;
+            case 2:
+                formulaBhaskara(s);
+                break;
+            case 3:
+                formulaVolumes(s);
+                break;
+            case 4:
+                menuCalculadora(s, opcao);
+                break;
+            default:
+                System.out.println("Essa opção não existe! Tente novamente!");
+                formulasMatematicas(s, opcao);
+                break;
+        }
+    }
+
+    public void formulaAreas(Scanner s) {
+        System.out.println("\n===========================");
+        System.out.println(" Áreas ");
+        System.out.println("1- Quadrado/Retângulo/Paralelogramo");
+        System.out.println("2- Triângulo");
+        System.out.println("3- Trapézio");
+        System.out.println("4- Círculo");
+        System.out.println("5- Voltar ao menu das fórmulas matemáticas");
+        System.out.print("Escolha uma das opções acima: ");
+        int areas = s.nextInt();
+
+        switch (areas) {
+            case 1: // Forma com 4 lados
+                areaQuadrilatero(s);
+                break;
+            case 2: // Triângulo
+                areaTriangulo(s);
+                break;
+            case 3: // Trapézio
+                areaTrapezio(s);
+                break;
+            case 4:
+                areaCirculo(s);
+                break;
+            case 5: // Retorna as fórmulas matemáticas
+                formulasMatematicas(s, areas);
+                break;
+            default:
+                System.out.print("Essa opção não existe! Tente novamente!");
+                formulaAreas(s);
+                break;
+        }
+    }
+
+    public void areaQuadrilatero(Scanner s) {
+        System.out.print("Digite a base: ");
+        double base = s.nextDouble();
+        System.out.print("Digite a altura:");
+        double altura = s.nextDouble();
+        double area = base * altura;
+        s.nextLine();
+        System.out.format("A área do quadrilátero é %.2f ", area);
+
+        char retornar = perguntarSeVoltar(s);
+        if (retornar == 's') {
+            formulaAreas(s);
+        } else {
+            areaQuadrilatero(s);
+        }
+    }
+
+    public void areaTriangulo(Scanner s) {
+        System.out.print("Digite a base: ");
+        double base = s.nextDouble();
+        System.out.print("Digite a altura:");
+        double altura = s.nextDouble();
+        double area = (base * altura) / 2;
+        s.nextLine();
+        System.out.format("A área do triângulo é %.2f: ", area);
+
+        char retornar = perguntarSeVoltar(s);
+        if (retornar == 's') {
+            formulaAreas(s);
+        } else {
+            areaTriangulo(s);
+        }
+    }
+
+    public void areaTrapezio(Scanner s) {
+        System.out.print("Digite a base maior: ");
+        double baseMaior = s.nextDouble();
+        s.nextLine();
+        System.out.print("Digite a base menor: ");
+        double baseMenor = s.nextDouble();
+        s.nextLine();
+        System.out.print("Digite a altura:");
+        double altura = s.nextDouble();
+        s.nextLine();
+        double area = ((baseMaior + baseMenor) * altura) / 2;
+        System.out.format("A área do trapézio é %.2f: ", area);
+
+        char retornar = perguntarSeVoltar(s);
+        if (retornar == 's') {
+            formulaAreas(s);
+        } else {
+            areaTrapezio(s);
+        }
+    }
+
+    public void areaCirculo(Scanner s) {
+        System.out.print("\nDigite o raio do círculo: ");
+        double raio = s.nextDouble();
+        s.nextLine();
+        double area = Math.PI * (Math.pow(raio, 2));
+        System.out.format("A área do círculo é %.2f: ", area);
+
+        char retornar = perguntarSeVoltar(s);
+        if (retornar == 's') {
+            formulaAreas(s);
+        } else {
+            areaCirculo(s);
+        }
+    }
+
+    // Opção 2
+    public void formulaBhaskara(Scanner s) {
+        System.out.println("\nFórmula de Bhaskara: ");
+        System.out.println("Delta = b² - 4.a.c");
+        System.out.println("x = -b +- Raiz quadrada de Delta");
+        System.out.println("                 2.a              ");
+
+        System.out.print("Digite o valor de a: ");
+        double valorA = s.nextDouble();
+        s.nextLine();
+
+        System.out.print("Digite o valor de b: ");
+        double valorB = s.nextDouble();
+        s.nextLine();
+
+        System.out.print("Digite o valor de C: ");
+        double valorC = s.nextDouble();
+        s.nextLine();
+        double delta = (Math.pow(valorB, 2)) - (4 * valorA * valorC);
+
+        if (delta < 0) {
+            System.out.println("O valor de Delta será negativo! \nFunção de 2º inválida! \n Delta: " + delta);
+        } else {
+            double valorXpositivo = (-valorB + Math.sqrt(delta)) / (2 * valorA);
+            double valorXnegativo = (-valorB - Math.sqrt(delta)) / (2 * valorA);
+            System.out.println("Valor do X positivo é: " + valorXpositivo);
+            System.out.println("Valor do X negativo é: " + valorXnegativo);
+        }
+        char retornar = perguntarSeVoltar(s);
+        if (retornar == 's') {
+            formulasMatematicas(s, retornar);
+        } else {
+            formulaBhaskara(s);
+        }
+    }
+
+    public void formulaVolumes(Scanner s) {
+        System.out.println("\n===========================");
+        System.out.println(" Volumes ");
+        System.out.println("1- Cubo");
+        System.out.println("2- Paralelepípedo");
+        System.out.println("3- Cilindro");
+        System.out.println("4- Pirâmide");
+        System.out.println("5- Cone");
+        System.out.println("6- Esfera");
+        System.out.println("7- Voltar ao menu das fórmulas matemáticas");
+        System.out.print("Escolha uma das opções acima: ");
+        int volumes = s.nextInt();
+
+        switch (volumes) {
+            case 1:
+                volumeCubo(s);
+                break;
+            case 2:
+                volumeParalelepipedo(s);
+                break;
+            case 3:
+                volumeCilindro(s);
+                break;
+            case 4:
+                volumePiramide(s);
+                break;
+            case 5:
+                volumeCone(s);
+                break;
+            case 6:
+                volumeEsfera(s);
+                break;
+            case 7:
+                formulasMatematicas(s, volumes);
+                break;
+            default:
+                System.out.println("Essa opção não existe! Tente Novamente!");
+                formulaVolumes(s);
+                break;
+        }
+    }
+
+    public void volumeCubo(Scanner s) {
+        System.out.print("\nDigite o valor da aresta: ");
+        double aresta = s.nextDouble();
+        s.nextLine();
+        double volume = Math.pow(aresta, 3);
+        System.out.format("O volume do cubo é %.2f ", volume);
+
+        char retornar = perguntarSeVoltar(s);
+        if (retornar == 's') {
+            formulaVolumes(s);
+        } else {
+            volumeCubo(s);
+        }
+    }
+
+    public void volumeParalelepipedo(Scanner s) {
+        System.out.print("\nDigite o valor da base: ");
+        double base = s.nextDouble();
+        s.nextLine();
+        System.out.print("Digite o valor da altura: ");
+        double altura = s.nextDouble();
+        s.nextLine();
+        System.out.print("Digite o valor da largura: ");
+        double largura = s.nextDouble();
+        s.nextLine();
+        double volume = base * altura * largura;
+        System.out.format("O volume do paraleleípedo é %.2f ", volume);
+
+        char retornar = perguntarSeVoltar(s);
+        if (retornar == 's') {
+            formulaVolumes(s);
+        } else {
+            volumeParalelepipedo(s);
+        }
+    }
+
+    public void volumeCilindro(Scanner s) {
+        System.out.print("\nDigite o raio do cilindro: ");
+        double raio = s.nextDouble();
+        s.nextLine();
+        System.out.print("Digite a altura do cilindro: ");
+        double altura = s.nextDouble();
+        s.nextLine();
+        double volume = Math.PI * (Math.pow(raio, 2) * altura);
+        System.out.format("O volume do cilindro é %.2f ", volume);
+
+        char retornar = perguntarSeVoltar(s);
+        if (retornar == 's') {
+            formulaVolumes(s);
+        } else {
+            volumeCilindro(s);
+        }
+    }
+
+    public void volumePiramide(Scanner s) {
+        System.out.println(
+                "\n AVISO: É necessário descobrir a área da base da pirâmide para assim descobrir seu volume!");
+        System.out.print("Digite a base da pirâmide: ");
+        double base = s.nextDouble();
+        s.nextLine();
+        System.out.print("Digite a largura da pirâmide: ");
+        double largura = s.nextDouble();
+        s.nextLine();
+        double area = base * largura;
+        System.out.format("A área da base é %.2f", area);
+        System.out.print("\nDigite a altura da pirâmide: ");
+        double altura = s.nextDouble();
+        s.nextLine();
+        double volume = (area * altura) / 3;
+        System.out.format("O volume da pirâmide é %.2f", volume);
+
+        char retornar = perguntarSeVoltar(s);
+        if (retornar == 's') {
+            formulaVolumes(s);
+        } else {
+            volumePiramide(s);
+        }
+    }
+
+    public void volumeCone(Scanner s) {
+        System.out.print("Digite o valor do raio: ");
+        double raio = s.nextDouble();
+        s.nextLine();
+        System.out.print("Diigite o valor da altura: ");
+        double altura = s.nextDouble();
+        s.nextLine();
+        double volume = (Math.PI * (Math.pow(raio, 2) * altura) / 3);
+        System.out.format("O volume do cone é %.2f ", volume);
+
+        char retornar = perguntarSeVoltar(s);
+        if (retornar == 's') {
+            formulaVolumes(s);
+        } else {
+            volumeCone(s);
+        }
+    }
+
+    public void volumeEsfera(Scanner s) {
+        System.out.print("Digite o raio da esfera: ");
+        double raio = s.nextDouble();
+        s.nextLine();
+        double volume = (4 * Math.PI * (Math.pow(raio, 3)) / 3);
+        System.out.format("O volume da esfera é %.2f ", volume);
+
+        char retornar = perguntarSeVoltar(s);
+        if (retornar == 's') {
+            formulaVolumes(s);
+        } else {
+            volumeEsfera(s);
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
+        new Calculadorav2();
+    }
+}
